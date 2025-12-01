@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBuy - Product Details</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#facc15",
+              accent: "#16a34a",
+            },
+            fontFamily: { display: ["Manrope"] },
+          },
+        },
+      };
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #fff9e6, #d5fefd, #fed6e3);
+        font-family: "Manrope", sans-serif;
+        min-height: 100vh;
+      }
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        padding: 14px 22px;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+        z-index: 9999;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .toast.success {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+      }
+      .toast.error {
+        background: linear-gradient(135deg, #ef4444, #b91c1c);
+      }
+      .product-card {
+        background: #fff;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+
+  <body class="text-gray-900">
+    <!-- Navbar -->
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900"
+      >
+        <a href="/users/userHome.html" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-3xl text-gray-900"
+            >shopping_bag</span
+          >
+          <h1 class="text-xl font-extrabold tracking-wide text-gray-900">
+            QuickBuy
+          </h1>
+        </a>
+
+        <nav class="hidden md:flex gap-6 font-medium text-gray-900">
+          <a href="/users/userHome.html">Home</a>
+          <a href="/users/products.html" class="font-bold text-gray-900">Shop</a>
+          <a href="/users/orders.html">My Orders</a>
+          <a href="/users/about.html">About</a>
+          <a href="/users/contact.html">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-4 text-gray-900">
+          <a href="cart.html" class="relative">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >shopping_cart</span
+            >
+            <span
+              id="cart-count"
+              class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold"
+              >0</span
+            >
+          </a>
+          <a href="profile.html">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >account_circle</span
+            >
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Product Details Section -->
+    <main class="max-w-7xl mx-auto px-6 py-10">
+      <div
+        id="product-details"
+        class="grid md:grid-cols-2 gap-10 bg-white/90 p-6 rounded-lg shadow-lg"
+      ></div>
+
+      <h2 class="text-2xl font-bold mt-12 mb-6">Related Products</h2>
+      <div
+        id="related-products"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      ></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-400 text-gray-900 py-6 text-center font-semibold">
+      © 2025 QuickBuy. All Rights Reserved.
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+      const baseUrl = "http://localhost:8080/api/products";
+      const cartUrl = "http://localhost:8080/api/cart";
+      const productContainer = document.getElementById("product-details");
+      const relatedContainer = document.getElementById("related-products");
+      const toast = document.getElementById("toast");
+
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+      let currentProduct = null;
+
+      // ✅ Fetch Product Details
+      async function fetchProduct() {
+        try {
+          const res = await fetch(`${baseUrl}/${productId}`);
+          const product = await res.json();
+          currentProduct = product;
+          renderProduct(product);
+          fetchRelatedProducts(product.category, product.id);
+        } catch (err) {
+          console.error(err);
+          productContainer.innerHTML =
+            "<p class='text-red-600'>Failed to load product details.</p>";
+        }
+      }
+
+      // ✅ Render Product Details
+      function renderProduct(p) {
+        const discountedPrice = (
+          p.price -
+          (p.price * (p.discount || 0)) / 100
+        ).toFixed(0);
+
+        const deliveryCharge = discountedPrice < 500 ? 30 : 0;
+
+        productContainer.innerHTML = `
+          <div>
+            <img src="http://localhost:8080/uploads/${p.image}" 
+              alt="${p.name}" 
+              class="w-full h-96 object-cover rounded-lg"
+              onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"/>
+          </div>
+
+          <div class="flex flex-col justify-center">
+            <h1 class="text-3xl font-extrabold mb-2">${p.name}</h1>
+            <p class="text-gray-700 mb-4">${p.description}</p>
+
+            <div class="flex items-center gap-3 mb-4">
+              ${
+                p.discount > 0
+                  ? `<span class="text-red-500 line-through text-lg">₹${p.price}</span>
+                     <span class="text-2xl font-bold text-green-700">₹${discountedPrice}</span>`
+                  : `<span class="text-2xl font-bold text-green-700">₹${p.price}</span>`
+              }
+            </div>
+
+            <p class="mb-3 font-semibold">
+              ${
+                p.stock > 0
+                  ? `<span class="text-green-600">In Stock</span>`
+                  : `<span class="text-red-600">Out of Stock</span>`
+              }
+            </p>
+
+            <p class="mb-3 font-medium">
+              ${
+                deliveryCharge === 0
+                  ? `<span class="text-green-600 font-semibold">Free Delivery</span>`
+                  : `<span class="text-gray-800">₹${deliveryCharge} Delivery Charge</span>`
+              }
+            </p>
+
+            <button onclick="addToCart(${p.id})"
+              class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg mt-4 w-fit">
+              <span class="material-symbols-outlined align-middle mr-2">add_shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+        `;
+      }
+
+      // ✅ Add to Cart (with Discounted Price)
+      async function addToCart(id) {
+        if (!currentProduct) return;
+
+        if (currentProduct.stock <= 0) {
+          showToast("Out of Stock! Try again later.", "error");
+          return;
+        }
+
+        try {
+          const discountedPrice = (
+            currentProduct.price -
+            (currentProduct.price * (currentProduct.discount || 0)) / 100
+          ).toFixed(2);
+
+          const cartItem = {
+            productId: id,
+            name: currentProduct.name,
+            price: parseFloat(discountedPrice), 
+            image: `http://localhost:8080/uploads/${currentProduct.image}`,
+            discount: currentProduct.discount || 0,
+            quantity: 1
+          };
+
+          const res = await fetch(`${cartUrl}/add`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cartItem)
+          });
+
+          if (res.ok) {
+            showToast("Added to cart successfully!", "success");
+            updateCartCount();
+          } else {
+            showToast("Failed to add to cart!", "error");
+          }
+        } catch (err) {
+          console.error(err);
+          showToast("Error adding to cart!", "error");
+        }
+      }
+
+      function showToast(message, type = "success") {
+        toast.textContent = message;
+        toast.className = `toast show ${type}`;
+        setTimeout(() => toast.classList.remove("show"), 2500);
+      }
+
+      async function fetchRelatedProducts(category, excludeId) {
+        try {
+          const res = await fetch(`${baseUrl}/category/${encodeURIComponent(category)}`);
+          const data = await res.json();
+          const filtered = data.filter((p) => p.id !== excludeId);
+          renderRelated(filtered);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function renderRelated(products) {
+        if (products.length === 0) {
+          relatedContainer.innerHTML =
+            "<p class='text-gray-600 col-span-full'>No related products found.</p>";
+          return;
+        }
+
+        relatedContainer.innerHTML = products
+          .map(
+            (p) => `
+            <div class="product-card" onclick="goToDetails(${p.id})">
+              <img src="http://localhost:8080/uploads/${p.image}" 
+                   alt="${p.name}" 
+                   class="w-full h-48 object-cover rounded-lg mb-4"
+                   onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'"/>
+              <h4 class="font-semibold text-lg">${p.name}</h4>
+              <p class="text-gray-600 text-sm mb-1">${p.description.substring(0, 50)}...</p>
+              <p class="font-bold text-green-700">₹${p.price}</p>
+            </div>
+          `
+          )
+          .join("");
+      }
+
+      function goToDetails(id) {
+        window.location.href = `/users/product-details.html?id=${id}`;
+      }
+
+      async function updateCartCount() {
+        const cartCountEl = document.getElementById("cart-count");
+        try {
+          const res = await fetch("http://localhost:8080/api/cart/all");
+          if (res.ok) {
+            const data = await res.json();
+            cartCountEl.textContent = data.length;
+          }
+        } catch {
+          cartCountEl.textContent = "0";
+        }
+      }
+
+      window.onload = () => {
+        fetchProduct();
+        updateCartCount();
+      };
+    </script>
+  </body>
+</html>

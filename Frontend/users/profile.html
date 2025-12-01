@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QuickBuy - My Profile</title>
+
+<!-- Tailwind CSS -->
+ <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css"
+      rel="stylesheet"
+    />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+body {
+  background: linear-gradient(180deg, #fff9e6 0%, #d5fefd 50%, #fed6e3 100%);
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+.logout-btn {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+}
+.logout-btn:hover {
+  background: linear-gradient(to right, #dc2626, #b91c1c);
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body class="font-display text-black">
+
+<!-- Navbar -->
+<header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-3xl text-gray-900">shopping_bag</span>
+      <h1 class="text-xl font-extrabold tracking-wide text-gray-900">QuickBuy</h1>
+    </a>
+
+    <nav class="hidden md:flex gap-6 font-medium text-gray-900">
+      <a href="/users/userHome.html" class="hover:text-gray-700">Home</a>
+      <a href="/users/products.html" class="hover:text-gray-700">Shop</a>
+      <a href="/users/orders.html" class="hover:text-gray-700">My Orders</a>
+      <a href="/users/about.html" class="hover:text-gray-700">About</a>
+      <a href="/users/contact.html" class="hover:text-gray-700">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-4 text-gray-900">
+      <a href="cart.html" class="relative">
+        <span class="material-symbols-outlined text-2xl text-black">shopping_cart</span>
+        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">0</span>
+      </a>
+      <a href="profile.html">
+        <span class="material-symbols-outlined text-2xl text-black">account_circle</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Profile Section -->
+<section class="flex justify-center items-center min-h-[80vh] px-4">
+  <div class="glass-card max-w-md w-full p-8 rounded-3xl shadow-lg text-center">
+    <div class="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden border-4 border-yellow-400 shadow-md">
+      <img id="userAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="w-full h-full object-cover">
+    </div>
+    <h2 id="userName" class="text-2xl font-extrabold mb-1">Loading...</h2>
+    <p id="userEmail" class="text-gray-600 mb-2">Loading...</p>
+    <p id="userPhone" class="text-gray-600 mb-4">Loading...</p>
+
+    <div class="bg-white/70 p-4 rounded-lg mb-4">
+      <h4 class="font-semibold text-gray-800 mb-1">Address</h4>
+      <p id="userAddress" class="text-gray-700 text-sm">Loading...</p>
+    </div>
+
+    <a href="edit-profile.html" class="w-full block bg-yellow-400 py-2.5 rounded-lg font-bold shadow hover:bg-yellow-500 transition">
+      Edit Profile
+    </a>
+
+    <button onclick="openLogoutPopup()" class="logout-btn w-full text-white py-2.5 mt-3 rounded-lg font-bold shadow">
+      Logout
+    </button>
+  </div>
+</section>
+
+<!-- Logout Popup (Modern) -->
+<div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center fade-in">
+    <span class="material-symbols-outlined text-red-500 text-5xl mb-3">logout</span>
+    <h3 class="text-xl font-semibold mb-2">Logout Confirmation</h3>
+    <p class="text-gray-600 mb-5">Are you sure you want to log out from your account?</p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelBtn" class="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+        Cancel
+      </button>
+      <button id="confirmBtn" class="px-5 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+ <footer class="bg-yellow-400 text-gray-900 py-6 mt-10">
+      <div
+        class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <p class="text-sm font-semibold">
+          © 2025 QuickBuy. All Rights Reserved.
+        </p>
+        <div class="flex gap-5 text-xl">
+          <a href="#" class="hover:text-blue-600 transition"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a href="#" class="hover:text-pink-600 transition"
+            ><i class="fa-brands fa-square-instagram"></i
+          ></a>
+          <a href="#" class="hover:text-sky-500 transition"
+            ><i class="fa-brands fa-square-twitter"></i
+          ></a>
+          <a href="#" class="hover:text-red-600 transition"
+            ><i class="fa-brands fa-youtube"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+<script>
+// ✅ Fetch user details
+document.addEventListener("DOMContentLoaded", async () => {
+  const email = localStorage.getItem("userEmail");
+  if (!email) {
+    window.location.href = "../index.html";
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:8080/api/users/${email}`);
+    if (!res.ok) throw new Error("User not found");
+    const user = await res.json();
+
+    document.getElementById("userName").innerText = user.name || "No name";
+    document.getElementById("userEmail").innerText = user.email || "N/A";
+    document.getElementById("userPhone").innerText = user.phone || "Not provided";
+    document.getElementById("userAddress").innerText = user.address || "No address available";
+  } catch (e) {
+    console.error(e);
+  }
+
+  // ✅ Call this function to update cart count dynamically
+  updateCartCount();
+});
+
+// ✅ Update Cart Count Dynamically
+async function updateCartCount() {
+  const cartCountEl = document.getElementById("cart-count");
+  try {
+    const res = await fetch("http://localhost:8080/api/cart/all");
+    if (res.ok) {
+      const data = await res.json();
+      cartCountEl.textContent = data.length || 0;
+    } else {
+      cartCountEl.textContent = "0";
+    }
+  } catch (error) {
+    console.error("Cart count fetch failed:", error);
+    cartCountEl.textContent = "0";
+  }
+}
+
+// ✅ Popup Controls
+function openLogoutPopup() {
+  const modal = document.getElementById("popupModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+document.getElementById("cancelBtn").onclick = () => {
+  document.getElementById("popupModal").classList.add("hidden");
+};
+
+document.getElementById("confirmBtn").onclick = () => {
+  localStorage.removeItem("userEmail");
+  window.location.href = "../index.html";
+};
+</script>
+
+</body>
+</html>

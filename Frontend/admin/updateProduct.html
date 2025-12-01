@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Product - Admin</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#13a4ec",
+        "background-light": "#f6f7f8",
+        "background-dark": "#101c22",
+      },
+      fontFamily: { display: ["Manrope"] },
+    },
+  },
+};
+</script>
+<style>
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+
+<div class="flex h-screen">
+<aside class="w-64 bg-yellow-400 dark:bg-card-dark flex-col hidden lg:flex border-r border-subtle-light dark:border-subtle-dark">
+  <div class="flex items-center gap-3 h-16 px-6 border-b border-subtle-light dark:border-subtle-dark">
+    <div class="text-dark size-7">
+      <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path>
+      </svg>
+    </div>
+    <h1 class="text-xl font-bold">QuickBuy</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2">
+    <a class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark:hover:bg-dark/20 transition-colors" href="/admin/adminHome.html">
+      <span class="material-symbols-outlined">dashboard</span> Dashboard
+    </a>
+    <a class="flex items-center gap-3 px-4 py-2 rounded-lg bg-dark/10 dark:bg-dark/20 text-dark font-semibold" href="/admin/viewAllProduct.html">
+      <span class="material-symbols-outlined">inventory_2</span> Products
+    </a>
+    <a class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-dark hover:bg-dark/10 hover:text-dark dark:hover:bg-dark/20 transition-colors" href="/admin/orders.html">
+      <span class="material-symbols-outlined">receipt_long</span> Orders
+    </a>
+    <a class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-dark hover:bg-dark/10 hover:text-dark dark:hover:bg-dark/20 transition-colors" href="/admin/users.html">
+      <span class="material-symbols-outlined">group</span> Users
+    </a>
+    <a class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark dark:hover:bg-dark/20 transition-colors" href="/admin/categories.html">
+      <span class="material-symbols-outlined">category</span> Categories
+    </a>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<div class="flex-1 flex flex-col overflow-hidden">
+<header class="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-[#18262d] px-6">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Update Product</h2>
+</header>
+
+<main class="flex-1 overflow-y-auto p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <a href="/admin/adminHome.html" class="hover:text-primary">Dashboard</a> / 
+      <a href="/admin/viewAllProduct.html" class="hover:text-primary">Products</a> / 
+      <span class="font-semibold text-gray-900 dark:text-white">Edit Product</span>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8">
+      <form id="editProductForm">
+        <input type="hidden" id="product-id" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Image Upload -->
+          <div class="md:col-span-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Product Image</label>
+            <div id="imagePreview" class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 bg-center bg-cover"></div>
+            <input type="file" id="imageFile" class="hidden" accept="image/*" />
+            <button type="button" onclick="document.getElementById('imageFile').click()" class="mt-4 w-full flex items-center justify-center gap-2 bg-yellow-400 text-gray-900 font-semibold py-2 px-4 rounded-lg hover:bg-green-500 transition-colors">
+              <span class="material-symbols-outlined">upload</span>
+              <span>Upload New Image</span>
+            </button>
+          </div>
+
+          <!-- Form Fields -->
+          <div class="md:col-span-2 space-y-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product Name</label>
+              <input id="name" type="text" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+            </div>
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+              <textarea id="description" rows="4" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Price</label>
+                <input id="price" type="number" step="0.01" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+              </div>
+              <div>
+                <label for="stock" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
+                <input id="stock" type="number" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+              </div>
+            </div>
+
+            <!-- 🔥 Added Discount Field -->
+            <div>
+              <label for="discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Discount (%)</label>
+              <input id="discount" type="number" min="0" max="100" step="0.1" placeholder="Enter discount percentage" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+            </div>
+
+            <div>
+              <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+              <input id="category" type="text" class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 rounded-lg focus:ring-primary focus:border-primary" />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end gap-4">
+          <a href="/admin/viewAllProduct.html" class="py-2 px-4 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500">Cancel</a>
+          <button type="submit" class="py-2 px-4 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-green-500 transition-colors">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+</div>
+</div>
+
+<script>
+const baseURL = "http://localhost:8080/api/products";
+
+// Load product details
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+document.getElementById("product-id").value = productId;
+
+async function loadProduct() {
+  const res = await fetch(`${baseURL}/${productId}`);
+  if (!res.ok) {
+    alert("❌ Product not found!");
+    return;
+  }
+  const product = await res.json();
+  document.getElementById("name").value = product.name;
+  document.getElementById("description").value = product.description;
+  document.getElementById("price").value = product.price;
+  document.getElementById("stock").value = product.stock;
+  document.getElementById("category").value = product.category;
+  document.getElementById("discount").value = product.discount || 0;
+  document.getElementById("imagePreview").style.backgroundImage = `url(http://localhost:8080/uploads/${product.image})`;
+}
+
+loadProduct();
+
+// Update product
+document.getElementById("editProductForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append("name", document.getElementById("name").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("price", document.getElementById("price").value);
+  formData.append("stock", document.getElementById("stock").value);
+  formData.append("category", document.getElementById("category").value);
+  formData.append("discount", document.getElementById("discount").value);
+
+  const imageFile = document.getElementById("imageFile").files[0];
+  if (imageFile) {
+    formData.append("imageFile", imageFile);
+  }
+
+  const response = await fetch(`${baseURL}/update/${productId}`, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (response.ok) {
+    alert("✅ Product updated successfully!");
+    window.location.href = "/admin/viewAllProduct.html";
+  } else {
+    alert("❌ Failed to update product!");
+  }
+});
+</script>
+</body>
+</html>

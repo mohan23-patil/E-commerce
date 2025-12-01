@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBuy - About</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              display: ["Manrope"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #fff9e6, #d5fefd, #fed6e3);
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="font-display text-black dark:text-white">
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900"
+      >
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-3xl text-gray-900"
+            >shopping_bag</span
+          >
+          <h1 class="text-xl font-extrabold tracking-wide text-gray-900">
+            QuickBuy
+          </h1>
+        </a>
+
+        <!-- Navigation -->
+        <nav class="hidden md:flex gap-6 font-medium text-gray-900">
+          <a href="/users/userHome.html" class="hover:text-gray-700">Home</a>
+          <a href="/users/products.html" class="hover:text-gray-700">Shop</a>
+          <a
+            href="/users/orders.html"
+            class="hover:text-gray-700"
+            >My Orders</a
+          >
+          <a href="/users/about.html" class="hover:text-gray-700 font-bold">About</a>
+          <a href="/users/contact.html" class="hover:text-gray-700">Contact</a>
+        </nav>
+
+        <!-- Icons -->
+        <div class="flex items-center gap-4 text-gray-900">
+          <a href="cart.html" class="relative">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >shopping_cart</span
+            >
+            <span
+              id="cart-count"
+              class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold"
+              >2</span
+            >
+          </a>
+
+          <a href="profile.html">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >account_circle</span
+            >
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 🏢 About Hero -->
+    <section class="py-20 text-center">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="text-4xl font-extrabold mb-4">About QuickBuy</h2>
+        <p class="text-lg text-gray-700 mb-6">
+          QuickBuy is your one-stop destination for all your shopping needs. We
+          provide a wide range of products with the best prices, quality, and
+          fast delivery.
+        </p>
+      </div>
+    </section>
+
+    <!-- 💡 Our Mission & Vision -->
+    <section class="py-14 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
+      <div
+        class="bg-white/70 backdrop-blur-lg p-6 rounded-lg shadow hover:shadow-md transition"
+      >
+        <h3 class="text-2xl font-bold mb-4">Our Mission</h3>
+        <p class="text-gray-700">
+          To make shopping convenient and accessible for everyone, offering
+          high-quality products with excellent customer service.
+        </p>
+      </div>
+      <div
+        class="bg-white/70 backdrop-blur-lg p-6 rounded-lg shadow hover:shadow-md transition"
+      >
+        <h3 class="text-2xl font-bold mb-4">Our Vision</h3>
+        <p class="text-gray-700">
+          To be the leading online shopping platform, bringing the best deals
+          and latest products directly to our customers.
+        </p>
+      </div>
+    </section>
+
+    <!-- 🌟 Why Choose Us -->
+    <section class="py-14 max-w-7xl mx-auto px-6">
+      <h3 class="text-2xl font-bold mb-6 text-center">Why Choose QuickBuy</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div
+          class="bg-white/70 backdrop-blur-lg p-6 rounded-lg shadow hover:shadow-md transition text-center"
+        >
+          <span class="material-symbols-outlined text-5xl text-primary mb-3">
+            local_shipping
+          </span>
+          <h4 class="font-semibold mb-2">Fast Delivery</h4>
+          <p class="text-gray-700 text-sm">
+            Get your products delivered quickly and safely.
+          </p>
+        </div>
+        <div
+          class="bg-white/70 backdrop-blur-lg p-6 rounded-lg shadow hover:shadow-md transition text-center"
+        >
+          <span class="material-symbols-outlined text-5xl text-primary mb-3">
+            verified
+          </span>
+          <h4 class="font-semibold mb-2">Quality Products</h4>
+          <p class="text-gray-700 text-sm">
+            We provide only high-quality products from trusted brands.
+          </p>
+        </div>
+        <div
+          class="bg-white/70 backdrop-blur-lg p-6 rounded-lg shadow hover:shadow-md transition text-center"
+        >
+          <span class="material-symbols-outlined text-5xl text-primary mb-3">
+            support_agent
+          </span>
+          <h4 class="font-semibold mb-2">24/7 Support</h4>
+          <p class="text-gray-700 text-sm">
+            Our support team is available anytime to assist you.
+          </p>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-yellow-400 text-gray-900 py-6 mt-10">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm font-semibold">© 2025 QuickBuy. All Rights Reserved.</p>
+        <div class="flex gap-5 text-xl">
+          <a href="#" class="hover:text-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="hover:text-pink-600 transition"><i class="fa-brands fa-square-instagram"></i></a>
+          <a href="#" class="hover:text-sky-500 transition"><i class="fa-brands fa-square-twitter"></i></a>
+          <a href="#" class="hover:text-red-600 transition"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </footer>
+    <script>
+  async function updateCartCount() {
+    const cartCountEl = document.getElementById("cart-count");
+    try {
+      const res = await fetch("http://localhost:8080/api/cart/all");
+      if (res.ok) {
+        const data = await res.json();
+        cartCountEl.textContent = data.length; // show number of cart items
+      } else {
+        cartCountEl.textContent = "0";
+      }
+    } catch (error) {
+      console.error("Cart count fetch failed:", error);
+      cartCountEl.textContent = "0";
+    }
+  }
+
+  // 🔄 Call it when the page loads
+  window.onload = updateCartCount;
+</script>
+
+  </body>
+</html>

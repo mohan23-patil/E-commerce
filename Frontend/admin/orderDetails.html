@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link crossorigin href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      as="style"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800"
+      onload="this.rel='stylesheet'"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: { display: ["Manrope"] },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <title>Order Details - Admin</title>
+  </head>
+
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200"
+  >
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="w-64 bg-yellow-400 dark:bg-card-dark flex-col hidden lg:flex border-r border-subtle-light dark:border-subtle-dark"
+      >
+        <div
+          class="flex items-center gap-3 h-16 px-6 border-b border-subtle-light dark:border-subtle-dark"
+        >
+          <div class="text-dark size-7">
+            <svg
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </div>
+          <h1 class="text-xl font-bold">QuickBuy</h1>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a
+            href="/admin/adminHome.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark"
+          >
+            <span class="material-symbols-outlined">dashboard</span> Dashboard
+          </a>
+          <a
+            href="/admin/viewAllProduct.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark"
+          >
+            <span class="material-symbols-outlined">inventory_2</span> Products
+          </a>
+          <a
+            href="/admin/orders.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg bg-dark/10 text-dark font-semibold"
+          >
+            <span class="material-symbols-outlined">receipt_long</span> Orders
+          </a>
+          <a
+            href="/admin/users.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark"
+          >
+            <span class="material-symbols-outlined">group</span> Users
+          </a>
+          <a
+            href="/admin/categories.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark"
+          >
+            <span class="material-symbols-outlined">category</span> Categories
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Section -->
+      <div
+        class="flex-1 flex flex-col overflow-hidden"
+        style="background: linear-gradient(135deg, #d5fefd, #fed6e3);"
+      >
+        <header
+          class="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6"
+        >
+          <h2 class="text-2xl font-bold text-gray-900">View Order Details</h2>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 lg:p-8">
+          <div class="max-w-5xl mx-auto">
+            <!-- Breadcrumb -->
+            <div class="flex items-center space-x-2 text-sm text-muted-light mb-2">
+              <a href="/admin/adminHome.html" class="hover:text-primary">Dashboard</a>
+              <span>/</span>
+              <a href="/admin/orders.html" class="hover:text-primary">Orders</a>
+              <span>/</span>
+              <span id="order-id-breadcrumb" class="font-medium">Order</span>
+            </div>
+
+            <!-- Order Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
+              <div>
+                <h2 id="order-id" class="text-3xl font-bold text-gray-900"></h2>
+                <p id="order-date" class="text-gray-500 mt-1"></p>
+              </div>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+              <h3 class="text-xl font-bold mb-4 text-gray-900">Customer Details</h3>
+              <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+                <p><strong>Name:</strong> <span id="customer-name">-</span></p>
+                <p><strong>Email:</strong> <span id="customer-email">-</span></p>
+                <p><strong>Phone:</strong> <span id="customer-phone">-</span></p>
+                <p><strong>Address:</strong> <span id="customer-address">-</span></p>
+              </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+              <h3 class="text-xl font-bold mb-4 text-gray-900">Order Summary</h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left" id="order-items">
+                  <thead>
+                    <tr class="border-b border-gray-200">
+                      <th class="py-3 pr-4">Product</th>
+                      <th class="py-3 px-4 text-center">Quantity</th>
+                      <th class="py-3 px-4 text-center">Status</th>
+                      <th class="py-3 pl-4 text-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="mt-6 border-t border-gray-200 pt-4 space-y-2 text-right">
+                <p class="text-lg font-semibold text-gray-800">
+                  Total: ₹<span id="order-total">0</span>
+                </p>
+                <p class="text-sm text-gray-600">
+                  Current Status: <span id="order-status" class="font-semibold text-blue-600"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      async function loadOrderDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get("id") || 8; // fallback for testing
+
+        try {
+          const response = await fetch(`http://localhost:8080/api/orders/${orderId}`);
+          if (!response.ok) throw new Error("Failed to fetch order details");
+          const order = await response.json();
+
+          // Basic details
+          document.getElementById("order-id").textContent = `Order #${order.id}`;
+          document.getElementById("order-id-breadcrumb").textContent = `Order #${order.id}`;
+          document.getElementById("order-date").textContent = `Placed on ${order.date}`;
+          document.getElementById("order-total").textContent = order.totalAmount;
+          document.getElementById("order-status").textContent = order.status;
+
+          // Customer info
+          document.getElementById("customer-name").textContent = order.name;
+          document.getElementById("customer-email").textContent = order.email;
+          document.getElementById("customer-phone").textContent = order.phone;
+          document.getElementById("customer-address").textContent = order.address;
+
+          // Items table
+          const tbody = document.querySelector("#order-items tbody");
+          tbody.innerHTML = "";
+          order.items.forEach((item) => {
+            const row = `
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 pr-4 flex items-center gap-3">
+                  <img src="${item.image}" alt="${item.productName}" class="w-12 h-12 object-cover rounded-lg border">
+                  <span>${item.productName}</span>
+                </td>
+                <td class="py-3 px-4 text-center">${item.quantity}</td>
+                <td class="py-3 px-4 text-center">${order.status}</td>
+                <td class="py-3 pl-4 text-right">₹${order.totalAmount}</td>
+              </tr>
+            `;
+            tbody.insertAdjacentHTML("beforeend", row);
+          });
+        } catch (error) {
+          console.error(error);
+          alert("Failed to load order details.");
+        }
+      }
+      loadOrderDetails();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBuy - My Orders</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: { display: ["Manrope"] },
+          },
+        },
+      };
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #fff9e6, #d5fefd, #fed6e3);
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+      }
+
+      /* ✅ Toast animation */
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        10%,
+        90% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        padding: 14px 22px;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        animation: fadeInOut 2.5s ease-in-out forwards;
+        z-index: 9999;
+        font-size: 15px;
+      }
+
+      .toast-success {
+        background-color: #16a34a;
+      }
+
+      .toast-error {
+        background-color: #dc2626;
+      }
+
+      .toast-info {
+        background-color: #2563eb;
+      }
+    </style>
+  </head>
+
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-black dark:text-white"
+  >
+    <!-- 🛒 Navbar -->
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900"
+      >
+        <a href="index.html" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-3xl text-gray-900"
+            >shopping_bag</span
+          >
+          <h1 class="text-xl font-extrabold tracking-wide text-gray-900">
+            QuickBuy
+          </h1>
+        </a>
+
+        <nav class="hidden md:flex gap-6 font-medium text-gray-900">
+          <a href="/users/userHome.html" class="hover:text-gray-700">Home</a>
+          <a href="/users/products.html" class="hover:text-gray-700">Shop</a>
+          <a href="/users/orders.html" class="hover:text-gray-700 font-bold"
+            >My Orders</a
+          >
+          <a href="/users/about.html" class="hover:text-gray-700">About</a>
+          <a href="/users/contact.html" class="hover:text-gray-700">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-4 text-gray-900">
+          <a href="cart.html" class="relative">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >shopping_cart</span
+            >
+            <span
+              id="cart-count"
+              class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold"
+              >0</span
+            >
+          </a>
+
+          <a href="profile.html">
+            <span class="material-symbols-outlined text-2xl text-black"
+              >account_circle</span
+            >
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 🧾 Orders Section -->
+    <section class="max-w-7xl mx-auto px-6 py-14">
+      <h2 class="text-3xl font-bold mb-8">My Orders</h2>
+
+      <div id="loading" class="text-center text-gray-600 mb-6">
+        Loading orders...
+      </div>
+
+      <div
+        id="orders-container"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      ></div>
+
+      <p
+        id="no-orders"
+        class="hidden text-center text-gray-600 text-lg font-medium mt-10"
+      >
+        😢 No orders found
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-400 text-gray-900 py-6 mt-40">
+      <div
+        class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <p class="text-sm font-semibold">
+          © 2025 QuickBuy. All Rights Reserved.
+        </p>
+        <div class="flex gap-5 text-xl">
+          <a href="#" class="hover:text-blue-600 transition"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a href="#" class="hover:text-pink-600 transition"
+            ><i class="fa-brands fa-square-instagram"></i
+          ></a>
+          <a href="#" class="hover:text-sky-500 transition"
+            ><i class="fa-brands fa-square-twitter"></i
+          ></a>
+          <a href="#" class="hover:text-red-600 transition"
+            ><i class="fa-brands fa-youtube"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+  const API_URL = "http://localhost:8080/api/orders";
+
+  // ✅ Toast Function
+  function showToast(message, type = "info") {
+    const toast = document.createElement("div");
+    toast.textContent = message;
+    toast.className = `toast toast-${type}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+
+  // ✅ Safe image URL builder
+  function imageUrlFrom(itemImage) {
+    if (!itemImage) return "https://via.placeholder.com/80?text=No+Image";
+    if (itemImage.startsWith("http") || itemImage.startsWith("/")) return itemImage;
+    return `http://localhost:8080/uploads/${itemImage}`;
+  }
+
+  // ✅ Dynamic Status Badge (color auto changes)
+  function renderStatusBadge(status) {
+    if (!status) status = "Pending";
+    const s = status.toLowerCase();
+    if (s.includes("cancel"))
+      return `<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-200 text-red-700">${status}</span>`;
+    if (s.includes("pending"))
+      return `<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">${status}</span>`;
+    if (s.includes("shipped"))
+      return `<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-200 text-blue-700">${status}</span>`;
+    if (s.includes("delivered"))
+      return `<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700">${status}</span>`;
+    return `<span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-700">${status}</span>`;
+  }
+
+  // ✅ Load all orders
+  async function loadOrders() {
+    const loadingEl = document.getElementById("loading");
+    const container = document.getElementById("orders-container");
+    const noOrdersMsg = document.getElementById("no-orders");
+
+    loadingEl.style.display = "block";
+    container.innerHTML = "";
+    noOrdersMsg.classList.add("hidden");
+
+    try {
+      const res = await fetch(`${API_URL}/all`);
+      if (!res.ok) throw new Error("Failed to fetch orders");
+      const orders = await res.json();
+
+      loadingEl.style.display = "none";
+
+      if (!orders || orders.length === 0) {
+        noOrdersMsg.classList.remove("hidden");
+        return;
+      }
+
+      orders.forEach((order) => {
+        const items = Array.isArray(order.items) ? order.items : [];
+        const isCancelled = order.status?.toLowerCase().includes("cancel");
+
+        const card = document.createElement("div");
+        card.className =
+          "bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition flex flex-col cursor-pointer relative";
+        card.dataset.orderId = order.id;
+
+        const itemsHtml =
+          items.length > 0
+            ? items
+                .map((item) => {
+                  const src = imageUrlFrom(item.image);
+                  const name = item.name || item.productName || "Unnamed Product";
+                  const qty = item.quantity ?? 1;
+                  return `
+                    <li class="flex items-center gap-3">
+                      <img src="${src}" alt="${name}" class="w-12 h-12 rounded border object-cover">
+                      <div>
+                        <p class="font-medium text-gray-800">${name}</p>
+                        <p class="text-xs text-gray-600">Qty: ${qty}</p>
+                      </div>
+                    </li>
+                  `;
+                })
+                .join("")
+            : `<li class="text-sm text-gray-600">No items in this order</li>`;
+
+        card.innerHTML = `
+          <div class="mb-3">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="font-bold text-lg mb-1">${order.name || "Customer"}</h3>
+                <p class="text-sm text-gray-600"><strong>Email:</strong> ${order.email || "-"}</p>
+                <p class="text-sm text-gray-600"><strong>Phone:</strong> ${order.phone || "-"}</p>
+                <p class="text-sm text-gray-600"><strong>Address:</strong> ${order.address || "-"}</p>
+                <p class="text-sm text-gray-600"><strong>Payment:</strong> ${order.paymentMethod || "-"}</p>
+                <p class="text-sm text-gray-800 mb-1"><strong>Total:</strong> ₹${order.totalAmount ?? 0}</p>
+              </div>
+              <div class="text-right">
+                ${renderStatusBadge(order.status)}
+                <p class="text-xs text-gray-500 mt-2">${order.date || ""}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t pt-3 mt-auto">
+            <h4 class="font-semibold text-sm mb-2">Items:</h4>
+            <ul class="space-y-2">${itemsHtml}</ul>
+          </div>
+
+          <div class="mt-4 flex gap-2 z-10 relative">
+            <button
+              ${isCancelled ? "disabled" : ""}
+              data-order-id="${order.id}"
+              class="cancel-btn w-full ${
+                isCancelled
+                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  : "bg-red-600 text-white hover:bg-red-700"
+              } text-sm font-semibold px-3 py-2 rounded-lg transition"
+            >
+              ${isCancelled ? "Cancelled" : "Cancel Order"}
+            </button>
+          </div>
+        `;
+
+        // 🟢 Navigate to order details on card click
+        card.addEventListener("click", (e) => {
+          if (e.target.classList.contains("cancel-btn")) return;
+          localStorage.setItem("selectedOrderId", order.id);
+          window.location.href = "orderDetails.html";
+        });
+
+        container.appendChild(card);
+      });
+
+      // ✅ Handle cancel button click
+      document.querySelectorAll(".cancel-btn").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation(); // prevent navigation
+          const id = btn.getAttribute("data-order-id");
+          if (!id || btn.disabled) return;
+
+          if (!confirm("Are you sure you want to cancel this order?")) return;
+
+          try {
+            const res = await fetch(`${API_URL}/cancel/${id}`, { method: "DELETE" });
+            if (res.ok) {
+              showToast("✅ Order cancelled successfully!", "success");
+              setTimeout(loadOrders, 800);
+            } else {
+              showToast("❌ Failed to cancel order!", "error");
+            }
+          } catch (err) {
+            console.error("Error cancelling order:", err);
+            showToast("⚠️ Something went wrong!", "error");
+          }
+        });
+      });
+    } catch (error) {
+      loadingEl.style.display = "none";
+      console.error("Error loading orders:", error);
+      showToast("⚠️ Failed to load orders", "error");
+      noOrdersMsg.classList.remove("hidden");
+    }
+  }
+
+  // ✅ Update cart count
+  async function updateCartCount() {
+    const cartCountEl = document.getElementById("cart-count");
+    try {
+      const res = await fetch("http://localhost:8080/api/cart/all");
+      if (res.ok) {
+        const data = await res.json();
+        cartCountEl.textContent = data.length;
+      } else {
+        cartCountEl.textContent = "0";
+      }
+    } catch {
+      cartCountEl.textContent = "0";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadOrders();
+    updateCartCount();
+  });
+</script>
+
+  </body>
+</html>

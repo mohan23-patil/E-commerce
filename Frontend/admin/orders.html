@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      as="style"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900"
+      onload="this.rel='stylesheet'"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: { display: ["Manrope"] },
+          },
+        },
+      };
+    </script>
+    <title>Orders - Admin</title>
+  </head>
+
+  <body
+    class="bg-background-light dark:bg-background-dark font-display"
+    style="min-height: 100vh"
+  >
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="w-64 bg-yellow-400 dark:bg-card-dark flex-col hidden lg:flex border-r border-subtle-light dark:border-subtle-dark"
+      >
+        <div
+          class="flex items-center gap-3 h-16 px-6 border-b border-subtle-light dark:border-subtle-dark"
+        >
+          <div class="text-dark size-7">
+            <svg
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </div>
+          <h1 class="text-xl font-bold">QuickBuy</h1>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a
+            href="/admin/adminHome.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark transition-colors"
+          >
+            <span class="material-symbols-outlined">dashboard</span> Dashboard
+          </a>
+          <a
+            href="/admin/viewAllProduct.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark transition-colors"
+          >
+            <span class="material-symbols-outlined">inventory_2</span> Products
+          </a>
+          <a
+            href="/admin/orders.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg bg-dark/10 text-dark font-semibold"
+          >
+            <span class="material-symbols-outlined">receipt_long</span> Orders
+          </a>
+          <a
+            href="/admin/users.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark transition-colors"
+          >
+            <span class="material-symbols-outlined">group</span> Users
+          </a>
+          <a
+            href="/admin/categories.html"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg text-muted-light hover:bg-dark/10 hover:text-dark transition-colors"
+          >
+            <span class="material-symbols-outlined">category</span> Categories
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <div
+        class="flex flex-1 flex-col"
+        style="background: linear-gradient(135deg, #d5fefd, #fed6e3)"
+      >
+        <header
+          class="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6"
+        >
+          <h2 class="text-2xl font-bold text-black">View Orders</h2>
+        </header>
+
+        <main class="flex-1 p-6">
+          <div class="rounded-xl bg-white shadow-sm">
+            <!-- Search -->
+            <div
+              class="flex items-center justify-between border-b border-gray-200 p-4"
+            >
+              <div class="relative w-full max-w-md">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  search
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search orders..."
+                  class="w-full rounded-lg border-gray-200 bg-background-light py-2 pl-10 pr-4 text-gray-900 focus:border-primary focus:ring-primary"
+                  id="searchOrder"
+                  onkeyup="searchOrders()"
+                />
+              </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="overflow-x-auto">
+              <table
+                class="w-full text-left text-sm text-gray-500"
+                id="ordersTable"
+              >
+                <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                  <tr>
+                    <th class="px-6 py-3">Order ID</th>
+                    <th class="px-6 py-3">Customer</th>
+                    <th class="px-6 py-3">Date</th>
+                    <th class="px-6 py-3">Total</th>
+                    <th class="px-6 py-3 text-center">Status</th>
+                    <th class="px-6 py-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:8080/api/orders";
+
+      async function loadOrders() {
+        try {
+          const res = await fetch(`${API_URL}/all`);
+          const orders = await res.json();
+          displayOrders(orders);
+        } catch (err) {
+          console.error("Error loading orders:", err);
+        }
+      }
+
+      function getStatusColor(status) {
+        const s = status.toLowerCase();
+        if (s.includes("cancel")) return "bg-red-100 text-red-700";
+        if (s.includes("pending")) return "bg-yellow-100 text-yellow-700";
+        if (s.includes("processing")) return "bg-blue-100 text-blue-700";
+        if (s.includes("shipped")) return "bg-indigo-100 text-indigo-700";
+        if (s.includes("delivered")) return "bg-green-100 text-green-700";
+        return "bg-gray-200 text-gray-700";
+      }
+
+      function displayOrders(orders) {
+        const tbody = document.getElementById("orders-body");
+        tbody.innerHTML = "";
+
+        if (!orders || orders.length === 0) {
+          tbody.innerHTML = `
+            <tr><td colspan="6" class="text-center p-6 text-gray-500">No orders found.</td></tr>`;
+          return;
+        }
+
+        orders.forEach((o) => {
+          const tr = document.createElement("tr");
+          tr.className =
+            "border-b border-gray-200 bg-white hover:bg-gray-50 transition";
+
+          const colorClass = getStatusColor(o.status || "Pending");
+
+          tr.innerHTML = `
+            <td class="px-6 py-4 font-medium text-gray-900">#${o.id}</td>
+            <td class="px-6 py-4">${o.name || "Unknown"}</td>
+            <td class="px-6 py-4">${o.date || "-"}</td>
+            <td class="px-6 py-4">₹${o.totalAmount ?? o.total ?? 0}</td>
+            <td class="px-6 py-4 text-center align-middle">
+              <select onchange="updateStatus(${o.id}, this)"
+                class="status-dropdown text-center transition-all duration-300 ease-in-out rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold cursor-pointer focus:ring-2 focus:ring-primary ${colorClass}">
+                <option value="Pending" ${o.status === "Pending" ? "selected" : ""}>Pending</option>
+                <option value="Processing" ${o.status === "Processing" ? "selected" : ""}>Processing</option>
+                <option value="Shipped" ${o.status === "Shipped" ? "selected" : ""}>Shipped</option>
+                <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered</option>
+                <option value="Cancelled" ${o.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+              </select>
+            </td>
+            <td class="px-6 py-4 text-center">
+              <a href="/admin/orderDetails.html?id=${o.id}" class="text-gray-500 hover:text-primary">
+                <span class="material-symbols-outlined align-middle">visibility</span>
+              </a>
+            </td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function updateStatus(orderId, selectEl) {
+        const newStatus = selectEl.value;
+        try {
+          const res = await fetch(
+            `${API_URL}/updateStatus/${orderId}?status=${newStatus}`,
+            { method: "PUT" }
+          );
+          if (res.ok) {
+            showToast(`Status updated to "${newStatus}" ✅`);
+            selectEl.className =
+              "status-dropdown text-center rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold cursor-pointer transition-all duration-300 " +
+              getStatusColor(newStatus);
+          } else showToast("Failed to update status ❌");
+        } catch (err) {
+          console.error("Error updating status:", err);
+          showToast("Error connecting to backend ❌");
+        }
+      }
+
+      function searchOrders() {
+        const input = document.getElementById("searchOrder").value.toLowerCase();
+        const rows = document.querySelectorAll("#orders-body tr");
+        rows.forEach((row) => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(input) ? "" : "none";
+        });
+      }
+
+      function showToast(message) {
+        let toast = document.createElement("div");
+        toast.className =
+          "fixed bottom-5 right-5 bg-black text-white px-4 py-2 rounded-lg shadow-lg text-sm";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+      }
+
+      loadOrders();
+    </script>
+  </body>
+</html>

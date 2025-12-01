@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBuy - Order Details</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { display: ["Manrope"] },
+            colors: {
+              primary: "#13a4ec",
+              success: "#22c55e",
+              danger: "#ef4444",
+              neutral: "#d1d5db",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #fff9e6, #d5fefd, #fed6e3);
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+      }
+
+      .step-line {
+        height: 3px;
+        flex: 1;
+        background-color: #e5e7eb;
+        transition: all 0.4s ease;
+      }
+
+      .step .icon {
+        transition: all 0.3s ease;
+      }
+
+      .step.completed .icon {
+        background-color: #22c55e;
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .step.active .icon {
+        background-color: #ef4444;
+        color: white;
+        transform: scale(1.15);
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+      }
+
+      .step.pending .icon {
+        background-color: #d1d5db;
+        color: #555;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background-color: #16a34a;
+        color: #fff;
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease-in-out;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+
+  <body class="font-display text-gray-900">
+    <!-- 🛍 Navbar -->
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900"
+      >
+        <a href="/users/orders.html" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-3xl text-gray-900">
+            arrow_back
+          </span>
+          <h1 class="text-xl font-extrabold tracking-wide text-gray-900">
+            Order Details
+          </h1>
+        </a>
+      </div>
+    </header>
+
+    <!-- 📦 Order Details Section -->
+    <section
+      class="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-8 mt-12 grid grid-cols-1 md:grid-cols-2 gap-10"
+    >
+      <!-- LEFT: Order Summary -->
+      <div>
+        <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+        <div id="order-details" class="space-y-3 text-gray-700">
+          <p>Loading order details...</p>
+        </div>
+
+        <div class="mt-8">
+          <a
+            href="/users/orders.html"
+            class="bg-yellow-400 px-5 py-2 rounded-lg font-semibold text-black hover:bg-green-500 hover:text-white transition"
+          >
+            ← Back to Orders
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Order Timeline -->
+      <div
+        id="order-history"
+        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+      >
+        <h3 class="text-xl font-bold mb-6 text-gray-900">Order Progress</h3>
+
+        <div class="flex items-center justify-between relative">
+          <!-- Step 1 -->
+          <div class="step flex flex-col items-center text-center" id="step-placed">
+            <div
+              class="icon w-10 h-10 flex items-center justify-center rounded-full bg-neutral transition-all duration-300"
+            >
+              <span class="material-symbols-outlined text-lg">shopping_cart</span>
+            </div>
+            <span class="mt-2 font-semibold text-sm">Placed</span>
+            <span class="text-xs text-gray-500" id="date-placed">—</span>
+          </div>
+
+          <div class="step-line"></div>
+
+          <!-- Step 2 -->
+          <div class="step flex flex-col items-center text-center" id="step-shipped">
+            <div
+              class="icon w-10 h-10 flex items-center justify-center rounded-full bg-neutral transition-all duration-300"
+            >
+              <span class="material-symbols-outlined text-lg">local_shipping</span>
+            </div>
+            <span class="mt-2 font-semibold text-sm">Shipped</span>
+            <span class="text-xs text-gray-500" id="date-shipped">—</span>
+          </div>
+
+          <div class="step-line"></div>
+
+          <!-- Step 3 -->
+          <div class="step flex flex-col items-center text-center" id="step-delivered">
+            <div
+              class="icon w-10 h-10 flex items-center justify-center rounded-full bg-neutral transition-all duration-300"
+            >
+              <span class="material-symbols-outlined text-lg">package_2</span>
+            </div>
+            <span class="mt-2 font-semibold text-sm">Delivered</span>
+            <span class="text-xs text-gray-500" id="date-delivered">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JS -->
+    <script>
+      const API_URL = "http://localhost:8080/api/orders";
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add("show"), 100);
+        setTimeout(() => toast.remove(), 2500);
+      }
+
+      function imageUrl(itemImage) {
+        if (!itemImage) return "https://via.placeholder.com/80?text=No+Image";
+        if (itemImage.startsWith("http")) return itemImage;
+        return `http://localhost:8080/uploads/${itemImage}`;
+      }
+
+      // ✅ Status color control: red (current), green (done), gray (pending)
+      function updateOrderTimeline(status, date) {
+        const steps = ["Placed", "Shipped", "Delivered"];
+        const currentIndex = steps.indexOf(status);
+        const stepEls = steps.map((s) =>
+          document.getElementById(`step-${s.toLowerCase()}`)
+        );
+        const lines = document.querySelectorAll(".step-line");
+
+        stepEls.forEach((el, i) => {
+          el.classList.remove("active", "completed", "pending");
+          if (i < currentIndex) {
+            el.classList.add("completed");
+            if (lines[i]) lines[i].classList.add("bg-success");
+          } else if (i === currentIndex) {
+            el.classList.add("active");
+            if (lines[i]) lines[i].classList.add("bg-danger");
+          } else {
+            el.classList.add("pending");
+            if (lines[i]) lines[i].classList.add("bg-neutral");
+          }
+        });
+
+        // Dates
+        document.getElementById("date-placed").textContent = date || "—";
+        if (currentIndex >= 1)
+          document.getElementById("date-shipped").textContent = "Next Day";
+        if (currentIndex >= 2)
+          document.getElementById("date-delivered").textContent = "2 Days Later";
+      }
+
+      async function loadOrderDetails() {
+        const id = localStorage.getItem("selectedOrderId");
+        const container = document.getElementById("order-details");
+
+        if (!id) {
+          container.innerHTML = `<p class="text-red-600 font-semibold">No order selected!</p>`;
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_URL}/${id}`);
+          if (!res.ok) throw new Error("Failed to fetch order");
+          const order = await res.json();
+
+          const items = Array.isArray(order.items) ? order.items : [];
+          const itemsHTML = items
+            .map(
+              (item) => `
+                <li class="flex items-center gap-4 border-b pb-2">
+                  <img src="${imageUrl(item.image)}" class="w-14 h-14 rounded border object-cover" />
+                  <div>
+                    <p class="font-medium">${item.productName}</p>
+                    <p class="text-sm text-gray-600">Qty: ${item.quantity}</p>
+                  </div>
+                </li>
+              `
+            )
+            .join("");
+
+          container.innerHTML = `
+            <div>
+              <h3 class="text-xl font-semibold mb-2">${order.name}</h3>
+              <p><strong>Email:</strong> ${order.email}</p>
+              <p><strong>Phone:</strong> ${order.phone}</p>
+              <p><strong>Address:</strong> ${order.address}</p>
+              <p><strong>Payment:</strong> ${order.paymentMethod}</p>
+              <p><strong>Status:</strong> ${order.status}</p>
+              <p><strong>Total:</strong> ₹${order.totalAmount}</p>
+              <p><strong>Date:</strong> ${order.date}</p>
+            </div>
+            <div class="mt-6">
+              <h4 class="font-semibold mb-2">Items:</h4>
+              <ul class="space-y-3">${itemsHTML}</ul>
+            </div>
+          `;
+
+          updateOrderTimeline(order.status, order.date);
+        } catch (error) {
+          console.error("Error:", error);
+          container.innerHTML = `<p class="text-red-600 font-semibold">Failed to load order details!</p>`;
+          showToast("❌ Error loading order details");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadOrderDetails);
+    </script>
+  </body>
+</html>
