@@ -7,6 +7,7 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -14,8 +15,6 @@
           extend: {
             colors: {
               primary: "#13a4ec",
-              "background-light": "#f6f7f8",
-              "background-dark": "#101c22",
             },
             fontFamily: {
               display: ["Manrope"],
@@ -25,16 +24,24 @@
       };
     </script>
 
+    <!-- Fonts & Icons -->
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       rel="stylesheet"
     />
+
     <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
@@ -42,246 +49,455 @@
 
     <style>
       body {
-        background: linear-gradient(180deg, #fff9e6 0%, #d5fefd 50%, #fed6e3 100%);
+        background: linear-gradient(
+          180deg,
+          #fff9e6 0%,
+          #d5fefd 50%,
+          #fed6e3 100%
+        );
         background-attachment: fixed;
-        font-family: "Manrope", sans-serif;
         min-height: 100vh;
+        font-family: "Manrope", sans-serif;
       }
 
       .glass-card {
         background: rgba(255, 255, 255, 0.35);
         backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.3s ease-in-out;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        transition: all 0.3s ease;
       }
 
       .glass-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
       }
 
-      .save-btn:hover {
-        background: linear-gradient(to right, #22c55e, #16a34a);
-        transform: scale(1.03);
+      .mobile-menu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
       }
 
-      .cancel-btn:hover {
-        background: linear-gradient(to right, #ef4444, #dc2626);
-        transform: scale(1.03);
+      .mobile-menu.active {
+        max-height: 400px;
+      }
+
+      input,
+      textarea {
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        transform: scale(1.01);
       }
     </style>
   </head>
 
-  <body class="font-display text-black dark:text-white">
-    <!-- 🌐 Navbar -->
+  <body class="font-display text-black">
+
+    <!-- ================= NAVBAR ================= -->
     <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
       <div
-        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-gray-900"
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between"
       >
-        <a href="index.html" class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-3xl text-gray-900">
+
+        <!-- Logo -->
+        <a href="/users/userHome.html" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-3xl">
             shopping_bag
           </span>
-          <h1 class="text-xl font-extrabold tracking-wide text-gray-900">
+
+          <h1 class="text-xl md:text-2xl font-extrabold tracking-wide">
             QuickBuy
           </h1>
         </a>
 
-        <nav class="hidden md:flex gap-6 font-medium text-gray-900">
-          <a href="/users/userHome.html" class="hover:text-gray-700">Home</a>
-          <a href="/users/products.html" class="hover:text-gray-700">Shop</a>
-          <a href="/users/orders.html" class="hover:text-gray-700">My Orders</a>
-          <a href="/users/about.html" class="hover:text-gray-700">About</a>
-          <a href="/users/contact.html" class="hover:text-gray-700">Contact</a>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex gap-6 font-semibold">
+          <a
+            href="/users/userHome.html"
+            class="hover:text-gray-700 transition"
+          >
+            Home
+          </a>
+
+          <a
+            href="/users/products.html"
+            class="hover:text-gray-700 transition"
+          >
+            Shop
+          </a>
+
+          <a
+            href="/users/orders.html"
+            class="hover:text-gray-700 transition"
+          >
+            My Orders
+          </a>
+
+          <a
+            href="/users/about.html"
+            class="hover:text-gray-700 transition"
+          >
+            About
+          </a>
+
+          <a
+            href="/users/contact.html"
+            class="hover:text-gray-700 transition"
+          >
+            Contact
+          </a>
         </nav>
 
-        <div class="flex items-center gap-4 text-gray-900">
-          <a href="cart.html" class="relative">
-            <span class="material-symbols-outlined text-2xl text-black">
+        <!-- Right Icons -->
+        <div class="flex items-center gap-4">
+
+          <!-- Cart -->
+          <a href="/users/cart.html" class="relative">
+            <span class="material-symbols-outlined text-3xl">
               shopping_cart
             </span>
+
             <span
               id="cart-count"
-              class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold"
-              >2</span
+              class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold"
             >
+              0
+            </span>
           </a>
-          <a href="profile.html">
-            <span class="material-symbols-outlined text-2xl text-black">
+
+          <!-- Profile -->
+          <a href="/users/profile.html">
+            <span class="material-symbols-outlined text-3xl">
               account_circle
             </span>
           </a>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="menu-btn"
+            class="md:hidden flex items-center"
+          >
+            <span class="material-symbols-outlined text-3xl">
+              menu
+            </span>
+          </button>
         </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu md:hidden bg-yellow-300"
+      >
+        <nav class="flex flex-col px-6 py-4 gap-4 font-semibold">
+          <a href="/users/userHome.html">Home</a>
+          <a href="/users/products.html">Shop</a>
+          <a href="/users/orders.html">My Orders</a>
+          <a href="/users/about.html">About</a>
+          <a href="/users/contact.html">Contact</a>
+        </nav>
       </div>
     </header>
 
-    <!-- 👤 Edit Profile Section -->
-    <section class="max-w-2xl mx-auto px-6 py-14">
-      <div class="glass-card p-8 rounded-2xl shadow">
-        <h2 class="text-3xl font-bold mb-8 text-gray-900 text-center">
+    <!-- ================= PROFILE SECTION ================= -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+      <div
+        class="glass-card rounded-3xl shadow-xl p-5 sm:p-8 md:p-10"
+      >
+
+        <!-- Profile Icon -->
+        <div class="flex justify-center mb-6">
+          <div
+            class="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
+          >
+            <span class="material-symbols-outlined text-5xl text-gray-900">
+              person
+            </span>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2
+          class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8"
+        >
           Edit Profile
         </h2>
 
         <!-- Form -->
         <form id="editProfileForm" class="space-y-5">
+
+          <!-- Name -->
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Full Name</label>
+            <label
+              class="block text-gray-700 font-semibold mb-2"
+            >
+              Full Name
+            </label>
+
             <input
               type="text"
               id="name"
               placeholder="Enter your full name"
-              class="w-full rounded-lg border-gray-300 focus:ring-primary focus:border-primary"
+              class="w-full rounded-xl border border-gray-300 bg-white/80 px-4 py-3 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
           </div>
 
+          <!-- Email -->
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Email</label>
+            <label
+              class="block text-gray-700 font-semibold mb-2"
+            >
+              Email
+            </label>
+
             <input
               type="email"
               id="email"
               readonly
-              class="w-full rounded-lg border-gray-300 bg-gray-100 text-gray-600"
+              class="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-gray-600"
             />
           </div>
 
+          <!-- Phone -->
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Phone</label>
+            <label
+              class="block text-gray-700 font-semibold mb-2"
+            >
+              Phone Number
+            </label>
+
             <input
               type="text"
               id="phone"
-              placeholder="Phone number"
-              class="w-full rounded-lg border-gray-300 focus:ring-primary focus:border-primary"
+              placeholder="Enter your phone number"
+              class="w-full rounded-xl border border-gray-300 bg-white/80 px-4 py-3 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
           </div>
 
+          <!-- Address -->
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Address</label>
+            <label
+              class="block text-gray-700 font-semibold mb-2"
+            >
+              Address
+            </label>
+
             <textarea
               id="address"
-              rows="3"
+              rows="4"
               placeholder="Enter your address"
-              class="w-full rounded-lg border-gray-300 focus:ring-primary focus:border-primary"
+              class="w-full rounded-xl border border-gray-300 bg-white/80 px-4 py-3 focus:ring-2 focus:ring-yellow-400 outline-none"
             ></textarea>
           </div>
 
-          <div class="flex gap-4 mt-8">
+          <!-- Buttons -->
+          <div
+            class="flex flex-col sm:flex-row gap-4 pt-4"
+          >
+
+            <!-- Save -->
             <button
               type="submit"
-              class="save-btn w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 py-3 rounded-lg font-bold shadow transition-all duration-300"
+              class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 py-3 rounded-xl font-bold shadow-lg hover:from-green-500 hover:to-green-600 hover:text-white transition-all duration-300 hover:scale-[1.02]"
             >
               Save Changes
             </button>
+
+            <!-- Cancel -->
             <a
-              href="profile.html"
-              class="cancel-btn w-full bg-gray-300 text-gray-800 py-3 rounded-lg font-bold shadow transition-all duration-300 text-center"
-              >Cancel</a
+              href="/users/profile.html"
+              class="w-full bg-gray-300 text-gray-800 py-3 rounded-xl font-bold text-center shadow-lg hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-[1.02]"
             >
+              Cancel
+            </a>
           </div>
         </form>
       </div>
     </section>
 
+    <!-- ================= FOOTER ================= -->
     <footer class="bg-yellow-400 text-gray-900 py-6 mt-10">
       <div
-        class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4"
+        class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-5"
       >
-        <p class="text-sm font-semibold">
+
+        <p class="text-sm font-semibold text-center md:text-left">
           © 2025 QuickBuy. All Rights Reserved.
         </p>
-        <div class="flex gap-5 text-xl">
-          <a href="#" class="hover:text-blue-600 transition"
-            ><i class="fa-brands fa-facebook"></i
-          ></a>
-          <a href="#" class="hover:text-pink-600 transition"
-            ><i class="fa-brands fa-square-instagram"></i
-          ></a>
-          <a href="#" class="hover:text-sky-500 transition"
-            ><i class="fa-brands fa-square-twitter"></i
-          ></a>
-          <a href="#" class="hover:text-red-600 transition"
-            ><i class="fa-brands fa-youtube"></i
-          ></a>
+
+        <!-- Social Icons -->
+        <div class="flex gap-5 text-2xl">
+
+          <a
+            href="#"
+            class="hover:text-blue-600 transition"
+          >
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+
+          <a
+            href="#"
+            class="hover:text-pink-600 transition"
+          >
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a
+            href="#"
+            class="hover:text-sky-500 transition"
+          >
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+
+          <a
+            href="#"
+            class="hover:text-red-600 transition"
+          >
+            <i class="fa-brands fa-youtube"></i>
+          </a>
         </div>
       </div>
     </footer>
 
-   <script>
-// ✅ Fetch user data dynamically from backend
-document.addEventListener("DOMContentLoaded", async () => {
-  const email = localStorage.getItem("userEmail");
-  if (!email) {
-    window.location.href = "../index.html";
-    return;
-  }
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
 
-  try {
-    const res = await fetch(`https://quickbuy-woqf.onrender.com/api/users/${email}`);
-    if (!res.ok) throw new Error("User not found");
+      // ================= MOBILE MENU =================
+      const menuBtn = document.getElementById("menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
 
-    const user = await res.json();
-    document.getElementById("name").value = user.name || "";
-    document.getElementById("email").value = user.email || "";
-    document.getElementById("phone").value = user.phone || "";
-    document.getElementById("address").value = user.address || "";
-  } catch (err) {
-    console.error(err);
-    alert("Error fetching user details!");
-  }
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("active");
+      });
 
-  // ✅ Call updateCartCount when page loads
-  updateCartCount();
-});
+      // ================= FETCH USER DATA =================
+      document.addEventListener("DOMContentLoaded", async () => {
 
-// ✅ Update user profile
-document
-  .getElementById("editProfileForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
+        const email = localStorage.getItem("userEmail");
 
-    const updatedUser = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      phone: document.getElementById("phone").value,
-      address: document.getElementById("address").value,
-    };
-
-    try {
-      const res = await fetch(
-        `https://quickbuy-woqf.onrender.com/api/users/update/${updatedUser.email}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedUser),
+        if (!email) {
+          window.location.href = "../index.html";
+          return;
         }
-      );
 
-      if (!res.ok) throw new Error("Update failed");
+        try {
 
-      alert("Profile updated successfully!");
-      window.location.href = "profile.html";
-    } catch (err) {
-      console.error(err);
-      alert("Error updating profile!");
-    }
-  });
+          const res = await fetch(
+            `https://quickbuy-woqf.onrender.com/api/users/${email}`
+          );
 
-// ✅ Update Cart Count Dynamically
-async function updateCartCount() {
-  const cartCountEl = document.getElementById("cart-count");
-  try {
-    const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
-    if (res.ok) {
-      const data = await res.json();
-      cartCountEl.textContent = data.length || 0;
-    } else {
-      cartCountEl.textContent = "0";
-    }
-  } catch (error) {
-    console.error("Cart count fetch failed:", error);
-    cartCountEl.textContent = "0";
-  }
-}
-</script>
+          if (!res.ok) {
+            throw new Error("User not found");
+          }
 
+          const user = await res.json();
+
+          document.getElementById("name").value =
+            user.name || "";
+
+          document.getElementById("email").value =
+            user.email || "";
+
+          document.getElementById("phone").value =
+            user.phone || "";
+
+          document.getElementById("address").value =
+            user.address || "";
+
+        } catch (err) {
+
+          console.error(err);
+          alert("Error fetching user details!");
+
+        }
+
+        // Update cart count
+        updateCartCount();
+      });
+
+      // ================= UPDATE PROFILE =================
+      document
+        .getElementById("editProfileForm")
+        .addEventListener("submit", async (e) => {
+
+          e.preventDefault();
+
+          const updatedUser = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            address: document.getElementById("address").value,
+          };
+
+          try {
+
+            const res = await fetch(
+              `https://quickbuy-woqf.onrender.com/api/users/update/${updatedUser.email}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedUser),
+              }
+            );
+
+            if (!res.ok) {
+              throw new Error("Update failed");
+            }
+
+            alert("✅ Profile updated successfully!");
+
+            window.location.href =
+              "/users/profile.html";
+
+          } catch (err) {
+
+            console.error(err);
+            alert("❌ Error updating profile!");
+
+          }
+        });
+
+      // ================= UPDATE CART COUNT =================
+      async function updateCartCount() {
+
+        const cartCountEl =
+          document.getElementById("cart-count");
+
+        try {
+
+          const res = await fetch(
+            "https://quickbuy-woqf.onrender.com/api/cart/all"
+          );
+
+          if (res.ok) {
+
+            const data = await res.json();
+
+            cartCountEl.textContent =
+              data.length || 0;
+
+          } else {
+
+            cartCountEl.textContent = "0";
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            "Cart count fetch failed:",
+            error
+          );
+
+          cartCountEl.textContent = "0";
+        }
+      }
+    </script>
   </body>
 </html>
