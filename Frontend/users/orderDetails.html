@@ -179,7 +179,7 @@
 
     <!-- JS -->
     <script>
-      const API_URL = "http://localhost:8080/api/orders";
+      const API_URL = "https://quickbuy-woqf.onrender.com/api/orders";
 
       function showToast(message) {
         const toast = document.createElement("div");
@@ -193,7 +193,7 @@
       function imageUrl(itemImage) {
         if (!itemImage) return "https://via.placeholder.com/80?text=No+Image";
         if (itemImage.startsWith("http")) return itemImage;
-        return `http://localhost:8080/uploads/${itemImage}`;
+        return `https://quickbuy-woqf.onrender.com/uploads/${itemImage}`;
       }
 
       // ✅ Status color control: red (current), green (done), gray (pending)

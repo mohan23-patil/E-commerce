@@ -136,7 +136,7 @@ tailwind.config = {
 </div>
 
 <script>
-const baseURL = "http://localhost:8080/api/products";
+const baseURL = "https://quickbuy-woqf.onrender.com/api/products";
 
 // Load product details
 const params = new URLSearchParams(window.location.search);
@@ -156,7 +156,7 @@ async function loadProduct() {
   document.getElementById("stock").value = product.stock;
   document.getElementById("category").value = product.category;
   document.getElementById("discount").value = product.discount || 0;
-  document.getElementById("imagePreview").style.backgroundImage = `url(http://localhost:8080/uploads/${product.image})`;
+  document.getElementById("imagePreview").style.backgroundImage = `url(https://quickbuy-woqf.onrender.com/uploads/${product.image})`;
 }
 
 loadProduct();

@@ -191,7 +191,7 @@
       </div>
     </footer>
     <script>
-      const baseUrl = "http://localhost:8080/api/products";
+      const baseUrl = "https://quickbuy-woqf.onrender.com/api/products";
       const grid = document.getElementById("productGrid");
       const searchInput = document.getElementById("searchInput");
       const categorySelect = document.getElementById("categorySelect");
@@ -247,7 +247,7 @@
                 ? `<span class="offer-badge">${p.discount}% OFF</span>`
                 : ""
             }
-            <img src="http://localhost:8080/uploads/${p.image}" 
+            <img src="https://quickbuy-woqf.onrender.com/uploads/${p.image}" 
                  alt="${p.name}" 
                  class="w-full h-48 object-cover rounded-lg mb-4"
                  onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'"/>
@@ -308,7 +308,7 @@
     async function updateCartCount() {
       const cartCountEl = document.getElementById("cart-count");
       try {
-        const res = await fetch("http://localhost:8080/api/cart/all");
+        const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
         if (res.ok) {
           const data = await res.json();
           cartCountEl.textContent = data.length;

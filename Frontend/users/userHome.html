@@ -166,7 +166,7 @@
 
   async function loadLatestProducts() {
     try {
-      const response = await fetch("http://localhost:8080/api/products/all");
+      const response = await fetch("https://quickbuy-woqf.onrender.com/api/products/all");
       const products = await response.json();
 
       if (products.length === 0) {
@@ -189,7 +189,7 @@
               ${discount > 0 ? `${discount}% OFF` : "Best Seller"}
             </span>
 
-            <img src="http://localhost:8080/uploads/${p.image}" alt="${p.name}" class="w-full h-64 object-cover">
+            <img src="https://quickbuy-woqf.onrender.com/uploads/${p.image}" alt="${p.name}" class="w-full h-64 object-cover">
 
             <div class="p-4 text-center">
               <h4 class="text-lg font-bold mb-1">${p.name}</h4>
@@ -214,7 +214,7 @@
   async function updateCartCount() {
     const cartCountEl = document.getElementById("cart-count");
     try {
-      const res = await fetch("http://localhost:8080/api/cart/all");
+      const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
       if (res.ok) {
         const data = await res.json();
         cartCountEl.textContent = data.length;

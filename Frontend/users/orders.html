@@ -184,7 +184,7 @@
     </footer>
 
     <script>
-  const API_URL = "http://localhost:8080/api/orders";
+  const API_URL = "https://quickbuy-woqf.onrender.com/api/orders";
 
   // ✅ Toast Function
   function showToast(message, type = "info") {
@@ -199,7 +199,7 @@
   function imageUrlFrom(itemImage) {
     if (!itemImage) return "https://via.placeholder.com/80?text=No+Image";
     if (itemImage.startsWith("http") || itemImage.startsWith("/")) return itemImage;
-    return `http://localhost:8080/uploads/${itemImage}`;
+    return `https://quickbuy-woqf.onrender.com/uploads/${itemImage}`;
   }
 
   // ✅ Dynamic Status Badge (color auto changes)
@@ -351,7 +351,7 @@
   async function updateCartCount() {
     const cartCountEl = document.getElementById("cart-count");
     try {
-      const res = await fetch("http://localhost:8080/api/cart/all");
+      const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
       if (res.ok) {
         const data = await res.json();
         cartCountEl.textContent = data.length;

@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch(`http://localhost:8080/api/users/${email}`);
+    const res = await fetch(`https://quickbuy-woqf.onrender.com/api/users/${email}`);
     if (!res.ok) throw new Error("User not found");
     const user = await res.json();
 
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function updateCartCount() {
   const cartCountEl = document.getElementById("cart-count");
   try {
-    const res = await fetch("http://localhost:8080/api/cart/all");
+    const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
     if (res.ok) {
       const data = await res.json();
       cartCountEl.textContent = data.length || 0;

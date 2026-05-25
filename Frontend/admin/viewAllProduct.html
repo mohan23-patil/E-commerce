@@ -131,8 +131,8 @@ async function loadProducts() {
     const category = params.get('category');
 
     const url = category
-      ? `http://localhost:8080/api/products/category/${category}`
-      : 'http://localhost:8080/api/products/all';
+      ? `https://quickbuy-woqf.onrender.com/api/products/category/${category}`
+      : 'https://quickbuy-woqf.onrender.com/api/products/all';
 
     const response = await fetch(url);
     allProducts = await response.json();
@@ -155,7 +155,7 @@ function displayProducts(products) {
     row.className = 'border-b hover:bg-gray-50 dark:hover:bg-gray-800 transition';
     row.innerHTML = `
       <td class="px-6 py-4">
-        <img src="http://localhost:8080/uploads/${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded-lg"/>
+        <img src="https://quickbuy-woqf.onrender.com/uploads/${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded-lg"/>
       </td>
       <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">${product.name}</td>
       <td class="px-6 py-4">${product.category}</td>
@@ -201,7 +201,7 @@ cancelBtn.onclick = () => modal.classList.add('hidden');
 confirmBtn.onclick = async () => {
   if (deleteId) {
     try {
-      await fetch(`http://localhost:8080/api/products/delete/${deleteId}`, { method: 'DELETE' });
+      await fetch(`https://quickbuy-woqf.onrender.com/api/products/delete/${deleteId}`, { method: 'DELETE' });
       modal.classList.add('hidden');
       showToast("✅ Product deleted successfully!");
       loadProducts();

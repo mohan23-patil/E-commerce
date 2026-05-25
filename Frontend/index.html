@@ -118,7 +118,7 @@ document.getElementById("loginForm").addEventListener("submit",async e=>{
  const password=document.getElementById("login-password").value.trim();
  if(!email||!password){showPopup("Please fill all fields!");return;}
  try{
-   const res=await fetch("http://localhost:8080/api/users/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+   const res=await fetch("https://quickbuy-woqf.onrender.com/api/users/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
    const data=await res.json();
    if(data&&data.email){
      localStorage.setItem("userEmail",data.email);
@@ -138,7 +138,7 @@ document.getElementById("registerForm").addEventListener("submit",async e=>{
    address:document.getElementById("reg-address").value
  };
  try{
-   const res=await fetch("http://localhost:8080/api/users/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(user)});
+   const res=await fetch("https://quickbuy-woqf.onrender.com/api/users/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(user)});
    if(res.ok){showPopup("Registration successful! Please login.");setTimeout(()=>loginTab.click(),1200);}
    else showPopup("Email already exists or invalid data!");
  }catch(e){console.error(e);showPopup("Error connecting to server!");}
