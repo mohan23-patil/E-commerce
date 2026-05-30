@@ -2,17 +2,20 @@ package com.ecommerce.Backend.controller;
 
 import com.ecommerce.Backend.entity.Product;
 import com.ecommerce.Backend.repository.ProductRepository;
+import com.ecommerce.Backend.service.CloudinaryService;
 import com.ecommerce.Backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+// ❌ Ab ye imports kaam ke nahi — Cloudinary use ho raha hai local file system nahi
+// import java.io.File;
+// import java.nio.file.Path;
+// import java.nio.file.Paths;
+
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -26,6 +29,8 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CloudinaryService cloudinaryService; // ✅ Cloudinary service inject ki
 
     @PostMapping("/add")
     public ResponseEntity<Product> addProduct(
@@ -35,7 +40,7 @@ public class ProductsController {
             @RequestParam("stock") int stock,
             @RequestParam("category") String category,
             @RequestParam(value = "discount", required = false) Double discount,
-            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
 
         Product product = new Product();
         product.setName(name);
@@ -46,17 +51,18 @@ public class ProductsController {
         product.setDiscount(discount != null ? discount : 0.0);
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-            String uploadDir = "uploads/";
-            Path path = Paths.get(uploadDir + fileName);
 
-            try {
-                Files.createDirectories(path.getParent());
-                Files.write(path, imageFile.getBytes());
-                product.setImage(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // Pehle wala local save — ab kaam ka nahi
+            // String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            // String uploadDir = "uploads/";
+            // Path path = Paths.get(uploadDir + fileName);
+            // Files.createDirectories(path.getParent());
+            // Files.write(path, imageFile.getBytes());
+            // product.setImage(fileName);
+
+            // Ab Cloudinary pe upload hoga — permanent URL milega
+            String imageUrl = cloudinaryService.uploadImage(imageFile);
+            product.setImage(imageUrl);
         }
 
         Product savedProduct = productRepository.save(product);
@@ -67,7 +73,6 @@ public class ProductsController {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
@@ -99,14 +104,19 @@ public class ProductsController {
         existingProduct.setDiscount(discount != null ? discount : existingProduct.getDiscount());
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            String uploadDir = "uploads/";
-            File uploadFolder = new File(uploadDir);
-            if (!uploadFolder.exists()) uploadFolder.mkdirs();
 
-            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir + fileName);
-            Files.write(filePath, imageFile.getBytes());
-            existingProduct.setImage(fileName);
+            //  Pehle wala local save — ab kaam ka nahi
+            // String uploadDir = "uploads/";
+            // File uploadFolder = new File(uploadDir);
+            // if (!uploadFolder.exists()) uploadFolder.mkdirs();
+            // String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            // Path filePath = Paths.get(uploadDir + fileName);
+            // Files.write(filePath, imageFile.getBytes());
+            // existingProduct.setImage(fileName);
+
+            // Ab Cloudinary pe upload hoga — permanent URL milega
+            String imageUrl = cloudinaryService.uploadImage(imageFile);
+            existingProduct.setImage(imageUrl);
         }
 
         Product updatedProduct = productRepository.save(existingProduct);
