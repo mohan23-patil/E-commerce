@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>QuickBuy - Home</title>
-
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
   <script>
     tailwind.config = {
       darkMode: "class",
@@ -26,114 +22,44 @@
       },
     };
   </script>
-
-  <!-- Icons -->
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css"
-    rel="stylesheet"
-  />
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-    rel="stylesheet"
-  />
-
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       overflow-x: hidden;
       font-family: "Manrope", sans-serif;
       background: linear-gradient(135deg, #d5fefd, #fed6e3);
     }
-
-    /* Marquee Animation */
     @keyframes marquee {
-      0% {
-        transform: translateX(100%);
-      }
-
-      100% {
-        transform: translateX(-100%);
-      }
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
-
     .animate-marquee {
       display: inline-block;
       animation: marquee 18s linear infinite;
     }
-
-    /* Hero Image */
     .hero-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    /* Product Hover */
-    .product-card:hover img,
-    .category-card:hover img {
+    /* Hover zoom applies to img inside the wrapper */
+    .product-card:hover .card-img,
+    .category-card:hover .card-img {
       transform: scale(1.08);
     }
-
-    /* Mobile Menu */
-    .mobile-menu {
-      display: none;
-    }
-
-    /* Responsive */
+    .mobile-menu { display: none; }
     @media (max-width: 768px) {
-
-      .mobile-menu {
-        display: block;
-      }
-
-      .hero-section {
-        height: 24rem;
-      }
-
-      .category-card img {
-        height: 190px;
-      }
-
-      .product-card img {
-        height: 220px;
-      }
+      .mobile-menu { display: block; }
+      .hero-section { height: 24rem; }
     }
-
     @media (max-width: 480px) {
-
-      .hero-section {
-        height: 20rem;
-      }
-
-      .category-card img {
-        height: 160px;
-      }
-
-      .product-card img {
-        height: 190px;
-      }
-
-      .hero-title {
-        font-size: 2rem;
-      }
-
-      .hero-text {
-        font-size: 14px;
-      }
-
-      h3 {
-        font-size: 1.7rem !important;
-      }
+      .hero-section { height: 20rem; }
+      .hero-title { font-size: 2rem; }
+      .hero-text { font-size: 14px; }
+      h3 { font-size: 1.7rem !important; }
     }
   </style>
 </head>
@@ -141,434 +67,248 @@
 <body>
 
   <!-- ================= NAVBAR ================= -->
-
   <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
-
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
 
       <!-- Logo -->
       <a href="index.html" class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-3xl text-black">
-          shopping_bag
-        </span>
-
-        <h1 class="text-xl md:text-2xl font-extrabold text-black">
-          QuickBuy
-        </h1>
+        <span class="material-symbols-outlined text-3xl text-black">shopping_bag</span>
+        <h1 class="text-xl md:text-2xl font-extrabold text-black">QuickBuy</h1>
       </a>
 
       <!-- Desktop Menu -->
       <nav class="hidden md:flex gap-6 font-semibold text-black">
-
-        <a href="/users/userHome.html" class="hover:text-gray-700 transition">
-          Home
-        </a>
-
-        <a href="/users/products.html" class="hover:text-gray-700 transition">
-          Shop
-        </a>
-
-        <a href="/users/orders.html" class="hover:text-gray-700 transition">
-          My Orders
-        </a>
-
-        <a href="/users/about.html" class="hover:text-gray-700 transition">
-          About
-        </a>
-
-        <a href="/users/contact.html" class="hover:text-gray-700 transition">
-          Contact
-        </a>
-
+        <a href="/users/userHome.html" class="hover:text-gray-700 transition">Home</a>
+        <a href="/users/products.html" class="hover:text-gray-700 transition">Shop</a>
+        <a href="/users/orders.html" class="hover:text-gray-700 transition">My Orders</a>
+        <a href="/users/about.html" class="hover:text-gray-700 transition">About</a>
+        <a href="/users/contact.html" class="hover:text-gray-700 transition">Contact</a>
       </nav>
 
       <!-- Right Icons -->
       <div class="flex items-center gap-4">
-
-        <!-- Cart -->
         <a href="cart.html" class="relative">
-
-          <span class="material-symbols-outlined text-2xl text-black">
-            shopping_cart
-          </span>
-
-          <span
-            id="cart-count"
-            class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">
-            0
-          </span>
-
+          <span class="material-symbols-outlined text-2xl text-black">shopping_cart</span>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 bg-red-700 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">0</span>
         </a>
-
-        <!-- Profile -->
         <a href="profile.html">
-          <span class="material-symbols-outlined text-2xl text-black">
-            account_circle
-          </span>
+          <span class="material-symbols-outlined text-2xl text-black">account_circle</span>
         </a>
-
-        <!-- Mobile Menu Button -->
         <button id="menuBtn" class="mobile-menu md:hidden">
-          <span class="material-symbols-outlined text-3xl">
-            menu
-          </span>
+          <span class="material-symbols-outlined text-3xl">menu</span>
         </button>
-
       </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div
-      id="mobileMenu"
+    <div id="mobileMenu"
       class="hidden md:hidden bg-yellow-300 px-5 pb-5 flex flex-col gap-4 font-semibold text-black">
-
       <a href="/users/userHome.html">Home</a>
       <a href="/users/products.html">Shop</a>
       <a href="/users/orders.html">My Orders</a>
       <a href="/users/about.html">About</a>
       <a href="/users/contact.html">Contact</a>
-
     </div>
-
   </header>
 
   <!-- ================= HERO SECTION ================= -->
-
   <section class="hero-section relative overflow-hidden h-[32rem] md:h-[36rem]">
-
     <div class="w-full h-full relative">
-
-      <!-- Background Image -->
-      <img
-        src="/images/homeuser.jpg"
-        alt="Hero Banner"
-        class="hero-img absolute inset-0"
-      />
-
-      <!-- Overlay -->
+      <img src="/images/homeuser.jpg" alt="Hero Banner" class="hero-img absolute inset-0" />
       <div class="absolute inset-0 bg-black/40"></div>
-
-      <!-- Hero Content -->
       <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-5 z-10">
-
-        <h2 class="hero-title text-4xl md:text-6xl font-extrabold text-white mb-4">
-          Big Festival Sale
-        </h2>
-
+        <h2 class="hero-title text-4xl md:text-6xl font-extrabold text-white mb-4">Big Festival Sale</h2>
         <p class="hero-text text-white text-base md:text-xl max-w-2xl mb-6">
-          Shop premium products, electronics, fashion and accessories
-          at unbeatable prices.
+          Shop premium products, electronics, fashion and accessories at unbeatable prices.
         </p>
-
-        <a
-          href="/users/products.html"
+        <a href="/users/products.html"
           class="bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-full font-bold shadow-lg transition">
           Shop Now
         </a>
-
       </div>
     </div>
   </section>
 
   <!-- ================= OFFER STRIP ================= -->
-
   <section class="bg-yellow-100 py-3 overflow-hidden shadow">
-
     <div class="animate-marquee whitespace-nowrap text-black font-bold text-lg">
-
-      🎉 Diwali Dhamaka Offer! Up to 50% OFF on Electronics & Fashion! 🛒
+      🎉 Summer Dhamaka Offer! Up to 50% OFF on Electronics & Fashion! 🛒
       Grab your favorite products before the offer ends! 🪔
-
     </div>
-
   </section>
 
   <!-- ================= CATEGORIES ================= -->
-
   <section class="py-16">
-
     <div class="max-w-7xl mx-auto px-6">
+      <h3 class="text-3xl font-extrabold mb-10 text-secondary">Shop by Categories</h3>
 
-      <h3 class="text-3xl font-extrabold mb-10 text-secondary">
-        Shop by Categories
-      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8">
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-
-        <!-- Category Card -->
-        <div
-          onclick="loadCategory('Mobile')"
+        <!-- Mobiles -->
+        <div onclick="loadCategory('Mobile')"
           class="category-card relative group cursor-pointer bg-white rounded-xl overflow-hidden shadow hover:shadow-2xl transition transform hover:-translate-y-2">
-
-          <img
-            src="/images/s24.jpg"
-            alt="Mobiles"
-            class="w-full h-64 object-cover transition duration-700"
-          />
-
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
-
-          <div class="absolute bottom-4 w-full flex justify-center">
-            <p class="text-white text-lg font-bold">
-              Mobiles
-            </p>
+          <!-- ✅ Fixed image container -->
+          <div class="w-full h-40 sm:h-48 md:h-52 overflow-hidden">
+            <img src="/images/s24.jpg" alt="Mobiles"
+              class="card-img w-full h-full object-cover transition duration-700" />
           </div>
-
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition rounded-xl"></div>
+          <div class="absolute bottom-3 w-full flex justify-center">
+            <p class="text-white text-sm sm:text-base md:text-lg font-bold drop-shadow">Mobiles</p>
+          </div>
         </div>
 
-        <!-- Laptop -->
-        <div
-          onclick="loadCategory('Laptop')"
+        <!-- Laptops -->
+        <div onclick="loadCategory('Laptop')"
           class="category-card relative group cursor-pointer bg-white rounded-xl overflow-hidden shadow hover:shadow-2xl transition transform hover:-translate-y-2">
-
-          <img
-            src="/images/apple.jfif"
-            alt="Laptop"
-            class="w-full h-64 object-cover transition duration-700"
-          />
-
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
-
-          <div class="absolute bottom-4 w-full flex justify-center">
-            <p class="text-white text-lg font-bold">
-              Laptops
-            </p>
+          <div class="w-full h-40 sm:h-48 md:h-52 overflow-hidden">
+            <img src="/images/apple.jfif" alt="Laptop"
+              class="card-img w-full h-full object-cover transition duration-700" />
           </div>
-
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition rounded-xl"></div>
+          <div class="absolute bottom-3 w-full flex justify-center">
+            <p class="text-white text-sm sm:text-base md:text-lg font-bold drop-shadow">Laptops</p>
+          </div>
         </div>
 
         <!-- Watches -->
-        <div
-          onclick="loadCategory('Watch')"
+        <div onclick="loadCategory('Watch')"
           class="category-card relative group cursor-pointer bg-white rounded-xl overflow-hidden shadow hover:shadow-2xl transition transform hover:-translate-y-2">
-
-          <img
-            src="/images/watch.jpg"
-            alt="Watch"
-            class="w-full h-64 object-cover transition duration-700"
-          />
-
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
-
-          <div class="absolute bottom-4 w-full flex justify-center">
-            <p class="text-white text-lg font-bold">
-              Watches
-            </p>
+          <div class="w-full h-40 sm:h-48 md:h-52 overflow-hidden">
+            <img src="/images/watch.jpg" alt="Watch"
+              class="card-img w-full h-full object-cover transition duration-700" />
           </div>
-
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition rounded-xl"></div>
+          <div class="absolute bottom-3 w-full flex justify-center">
+            <p class="text-white text-sm sm:text-base md:text-lg font-bold drop-shadow">Watches</p>
+          </div>
         </div>
 
         <!-- Clothes -->
-        <div
-          onclick="loadCategory('Clothes')"
+        <div onclick="loadCategory('Clothes')"
           class="category-card relative group cursor-pointer bg-white rounded-xl overflow-hidden shadow hover:shadow-2xl transition transform hover:-translate-y-2">
-
-          <img
-            src="/images/clothes.jpg"
-            alt="Clothes"
-            class="w-full h-64 object-cover transition duration-700"
-          />
-
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
-
-          <div class="absolute bottom-4 w-full flex justify-center">
-            <p class="text-white text-lg font-bold">
-              Clothing
-            </p>
+          <div class="w-full h-40 sm:h-48 md:h-52 overflow-hidden">
+            <img src="/images/clothes.jpg" alt="Clothes"
+              class="card-img w-full h-full object-cover transition duration-700" />
           </div>
-
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition rounded-xl"></div>
+          <div class="absolute bottom-3 w-full flex justify-center">
+            <p class="text-white text-sm sm:text-base md:text-lg font-bold drop-shadow">Clothing</p>
+          </div>
         </div>
 
         <!-- Electronics -->
-        <div
-          onclick="loadCategory('Electronics')"
+        <div onclick="loadCategory('Electronics')"
           class="category-card relative group cursor-pointer bg-white rounded-xl overflow-hidden shadow hover:shadow-2xl transition transform hover:-translate-y-2">
-
-          <img
-            src="/images/acceseries.jpg"
-            alt="Electronics"
-            class="w-full h-64 object-cover transition duration-700"
-          />
-
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
-
-          <div class="absolute bottom-4 w-full flex justify-center">
-            <p class="text-white text-lg font-bold">
-              Electronics
-            </p>
+          <div class="w-full h-40 sm:h-48 md:h-52 overflow-hidden">
+            <img src="/images/acceseries.jpg" alt="Electronics"
+              class="card-img w-full h-full object-cover transition duration-700" />
           </div>
-
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition rounded-xl"></div>
+          <div class="absolute bottom-3 w-full flex justify-center">
+            <p class="text-white text-sm sm:text-base md:text-lg font-bold drop-shadow">Electronics</p>
+          </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
   <!-- ================= FLASH SALE ================= -->
-
   <section class="bg-yellow-100 py-3 overflow-hidden shadow">
-
     <div class="animate-marquee whitespace-nowrap text-black font-bold text-lg">
-
-      💥 Flash Sale Alert! Extra 20% OFF on Mobile Accessories & Smart
-      Gadgets! 🔥 Hurry, Offer valid till midnight! ⏰
-
+      💥 Flash Sale Alert! Extra 20% OFF on Mobile Accessories & Smart Gadgets! 🔥 Hurry, Offer valid till midnight! ⏰
     </div>
-
   </section>
 
   <!-- ================= LATEST PRODUCTS ================= -->
-
   <section class="py-16">
-
     <div class="max-w-7xl mx-auto px-6">
-
-      <h3 class="text-3xl font-extrabold mb-10 text-secondary">
-        Latest Products
-      </h3>
-
-      <div
-        id="latestGrid"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <h3 class="text-3xl font-extrabold mb-10 text-secondary">Latest Products</h3>
+      <div id="latestGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
       </div>
-
     </div>
-
   </section>
 
   <!-- ================= FOOTER ================= -->
-
   <footer class="bg-yellow-400 text-black py-6 mt-10">
-
-    <div
-      class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-5">
-
-      <p class="text-sm font-semibold text-center">
-        © 2025 QuickBuy. All Rights Reserved.
-      </p>
-
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-5">
+      <p class="text-sm font-semibold text-center">© 2025 QuickBuy. All Rights Reserved.</p>
       <div class="flex gap-5 text-2xl">
-
-        <a href="#" class="hover:text-blue-600 transition">
-          <i class="fa-brands fa-facebook"></i>
-        </a>
-
-        <a href="#" class="hover:text-pink-600 transition">
-          <i class="fa-brands fa-square-instagram"></i>
-        </a>
-
-        <a href="#" class="hover:text-sky-500 transition">
-          <i class="fa-brands fa-square-twitter"></i>
-        </a>
-
-        <a href="#" class="hover:text-red-600 transition">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-
+        <a href="#" class="hover:text-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="hover:text-pink-600 transition"><i class="fa-brands fa-square-instagram"></i></a>
+        <a href="#" class="hover:text-sky-500 transition"><i class="fa-brands fa-square-twitter"></i></a>
+        <a href="#" class="hover:text-red-600 transition"><i class="fa-brands fa-youtube"></i></a>
       </div>
-
     </div>
-
   </footer>
 
   <!-- ================= JAVASCRIPT ================= -->
-
   <script>
 
     // Mobile Menu
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
-
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
     });
 
     // Load Category
     function loadCategory(category) {
-      window.location.href =
-        `/users/products.html?category=${encodeURIComponent(category)}`;
+      window.location.href = `/users/products.html?category=${encodeURIComponent(category)}`;
     }
 
     // Product Details
     function viewDetails(productId) {
-      window.location.href =
-        `/users/product-details.html?id=${productId}`;
+      window.location.href = `/users/product-details.html?id=${productId}`;
     }
 
     // Load Products
     async function loadLatestProducts() {
-
       try {
-
-        const response =
-          await fetch("https://quickbuy-woqf.onrender.com/api/products/all");
-
+        const response = await fetch("https://quickbuy-woqf.onrender.com/api/products/all");
         const products = await response.json();
 
         if (products.length === 0) {
-
           document.getElementById("latestGrid").innerHTML =
             "<p class='text-center col-span-4 text-gray-600'>No products available.</p>";
-
           return;
         }
 
-        const latest =
-          products.sort((a, b) => b.id - a.id).slice(0, 4);
+        const latest = products.sort((a, b) => b.id - a.id).slice(0, 4);
 
         const productHTML = latest.map((p) => {
-
           const discount = p.discount || 0;
-
-          const discountedPrice =
-            Math.round(p.price - (p.price * discount) / 100);
+          const discountedPrice = Math.round(p.price - (p.price * discount) / 100);
 
           return `
-
             <div
               onclick="viewDetails(${p.id})"
               class="product-card relative bg-white rounded-xl shadow hover:shadow-2xl transition transform hover:-translate-y-2 overflow-hidden cursor-pointer">
 
-              <span
-                class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
-
+              <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
                 ${discount > 0 ? `${discount}% OFF` : "Best Seller"}
-
               </span>
 
-              <img
-                src="https://quickbuy-woqf.onrender.com/uploads/${p.image}"
-                alt="${p.name}"
-                class="w-full h-64 object-cover transition duration-700"
-              />
-
-              <div class="p-4 text-center">
-
-                <h4 class="text-lg font-bold mb-2">
-                  ${p.name}
-                </h4>
-
-                <p class="text-gray-600 mb-3 truncate">
-                  ${p.description}
-                </p>
-
-                <div class="flex items-center justify-center gap-2">
-
-                  ${
-                    discount > 0
-                    ? `<p class="text-gray-500 line-through text-sm">₹${p.price}</p>`
-                    : ""
-                  }
-
-                  <p class="text-xl font-bold text-black">
-                    ₹${discountedPrice}
-                  </p>
-
-                </div>
-
+              <!-- ✅ Fixed image container for product cards -->
+              <div class="w-full h-48 sm:h-52 md:h-56 overflow-hidden">
+                <img
+                  src="https://quickbuy-woqf.onrender.com/uploads/${p.image}"
+                  alt="${p.name}"
+                  class="card-img w-full h-full object-cover transition duration-700"
+                />
               </div>
 
+              <div class="p-4 text-center">
+                <h4 class="text-base md:text-lg font-bold mb-1 truncate">${p.name}</h4>
+                <p class="text-gray-500 text-sm mb-3 truncate">${p.description}</p>
+                <div class="flex items-center justify-center gap-2">
+                  ${discount > 0 ? `<p class="text-gray-400 line-through text-sm">₹${p.price}</p>` : ""}
+                  <p class="text-lg md:text-xl font-bold text-black">₹${discountedPrice}</p>
+                </div>
+              </div>
             </div>
           `;
         }).join("");
@@ -576,49 +316,31 @@
         document.getElementById("latestGrid").innerHTML = productHTML;
 
       } catch (error) {
-
         console.error("Error loading products:", error);
-
       }
     }
 
     // Update Cart Count
     async function updateCartCount() {
-
-      const cartCountEl =
-        document.getElementById("cart-count");
-
+      const cartCountEl = document.getElementById("cart-count");
       try {
-
-        const res =
-          await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
-
+        const res = await fetch("https://quickbuy-woqf.onrender.com/api/cart/all");
         if (res.ok) {
-
           const data = await res.json();
-
           cartCountEl.textContent = data.length;
-
         } else {
-
           cartCountEl.textContent = "0";
         }
-
       } catch (error) {
-
         console.error("Cart fetch failed:", error);
-
         cartCountEl.textContent = "0";
       }
     }
 
     // Window Load
     window.onload = () => {
-
       loadLatestProducts();
-
       updateCartCount();
-
     };
 
   </script>
